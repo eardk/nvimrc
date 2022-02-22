@@ -33,6 +33,8 @@ endfunc
 let mapleader = ","
 nnoremap <silent> <leader>f :FZF<cr>
 nnoremap <silent> <leader>F :FZF ~<cr>
+nnoremap <silent> <leader>r :Rg<cr>
+nnoremap <silent> <leader>g :Rg<cr>
 let $FZF_DEFAULT_COMMAND='fd --type f'
 command W w
 command Q q
