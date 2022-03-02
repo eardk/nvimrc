@@ -35,7 +35,7 @@ let mapleader = ","
 nnoremap <silent> <leader>f :FZF<cr>
 nnoremap <silent> <leader>F :FZF ~<cr>
 nnoremap <silent> <leader>r :Rg<cr>
-nnoremap <silent> <leader>g :Rg<cr>
+" nnoremap <silent> <leader>g :Rg<cr>
 nnoremap <silent> <leader>t :Tags<cr>
 let $FZF_DEFAULT_COMMAND='fd --type f'
 command W w
@@ -43,6 +43,15 @@ command Q q
 map <silent> <leader>/ :s/^/\/\//<cr>
 
 set pastetoggle=<F2>
+" clipboard
+vnoremap <leader>y "+y
+nnoremap <leader>Y "+yg_
+nnoremap <leader>y "+y
+nnoremap <leader>yy "+yy
+nnoremap <leader>p "+p
+nnoremap <leader>P "+P
+vnoremap <leader>p "+p
+vnoremap <leader>P "+P
 
 " Set completeopt to have a better completion experience
 " :help completeopt
@@ -129,19 +138,20 @@ cmp.setup({
   },
 })
 EOF
+nnoremap <Space> <NOP>
 
 " Code navigation shortcuts
-nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
-nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
-nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
-nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
-nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
-nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
-nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
-nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
-
-nnoremap <silent> ga    <cmd>lua vim.lsp.buf.code_action()<CR>
+nnoremap <silent> <c-]> 	<cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> K     	<cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> gD    	<cmd>lua vim.lsp.buf.implementation()<CR>
+nnoremap <silent> <c-k> 	<cmd>lua vim.lsp.buf.signature_help()<CR>
+nnoremap <silent> gn 		<cmd>lua vim.lsp.buf.type_definition()<CR>
+nnoremap <silent> gr    	<cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <silent> g0    	<cmd>lua vim.lsp.buf.document_symbol()<CR>
+nnoremap <silent> gW    	<cmd>lua vim.lsp.buf.workspace_symbol()<CR>
+nnoremap <silent> gd    	<cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> ga    	<cmd>lua vim.lsp.buf.code_action()<CR>
+nnoremap <silent> gR    	<cmd>lua vim.lsp.buf.rename()<CR>
 
 " Set updatetime for CursorHold
 " 300ms of no cursor movement to trigger CursorHold
