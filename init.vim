@@ -169,3 +169,4 @@ set signcolumn=yes
 
 "autocmd BufWritePre *.rs lua vim.lsp.buf.formatting_sync(nil, 200)
 
+" let g:rustfmt_autosave = 1
