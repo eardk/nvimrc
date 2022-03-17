@@ -19,8 +19,6 @@ call plug#end()
 
 lua require'lspconfig'.rust_analyzer.setup{}
 
-syntax enable
-syntax on
 filetype plugin indent on
 colorscheme fade 
 
