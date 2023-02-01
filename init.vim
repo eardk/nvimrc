@@ -4,8 +4,8 @@ Plug 'junegunn/fzf.vim'
 Plug 'rust-lang/rust.vim'
 Plug 'arzg/vim-rust-syntax-ext'
 Plug 'davemo88/rust-fade'
-Plug 'leafgarland/typescript-vim'
-Plug 'tomlion/vim-solidity'
+"Plug 'leafgarland/typescript-vim'
+"Plug 'tomlion/vim-solidity'
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-nvim-lsp'
@@ -15,13 +15,16 @@ Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/cmp-vsnip'
 Plug 'hrsh7th/vim-vsnip'
 Plug 'simrat39/rust-tools.nvim'
+Plug 'ellisonleao/gruvbox.nvim'
+Plug 'OrangeT/vim-csharp'
 call plug#end()
 
 lua require'lspconfig'.rust_analyzer.setup{}
 lua require'lspconfig'.pyright.setup{}
+lua require'lspconfig'.omnisharp.setup { cmd = { "/usr/local/bin/omnisharp-roslyn/Omnisharp", "--languageserver" , "--hostPID", tostring(pid) }}
 
 filetype plugin indent on
-colorscheme fade 
+colorscheme csfade
 
 function! SynStack()
   if !exists("*synstack")
@@ -166,3 +169,6 @@ set signcolumn=yes
 "autocmd BufWritePre *.rs lua vim.lsp.buf.formatting_sync(nil, 200)
 
 " let g:rustfmt_autosave = 1
+set expandtab
+set nofixendofline
+set tabstop=8 softtabstop=0 expandtab shiftwidth=4 smarttab
