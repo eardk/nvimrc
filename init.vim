@@ -15,13 +15,18 @@ Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/cmp-vsnip'
 Plug 'hrsh7th/vim-vsnip'
 Plug 'simrat39/rust-tools.nvim'
+Plug 'hashivim/vim-terraform'
 Plug 'ellisonleao/gruvbox.nvim'
 Plug 'OrangeT/vim-csharp'
+Plug 'github/copilot.vim'
 call plug#end()
 
 lua require'lspconfig'.rust_analyzer.setup{}
 lua require'lspconfig'.pyright.setup{}
 lua require'lspconfig'.omnisharp.setup { cmd = { "/usr/local/bin/omnisharp-roslyn/Omnisharp", "--languageserver" , "--hostPID", tostring(pid) }}
+lua require'lspconfig'.terraformls.setup{}
+autocmd BufWritePre *.tfvars lua vim.lsp.buf.formatting_sync()
+autocmd BufWritePre *.tf lua vim.lsp.buf.formatting_sync()
 
 filetype plugin indent on
 colorscheme csfade
@@ -40,6 +45,8 @@ nnoremap <silent> <leader>r :Rg<cr>
 " nnoremap <silent> <leader>g :Rg<cr>
 nnoremap <silent> <leader>t :Tags<cr>
 let $FZF_DEFAULT_COMMAND='fd --type f'
+"let $FZF_DEFAULT_COMMAND='find . -type f -print -o -type l -print 2> /dev/null | sed s/^..//'
+
 command W w
 command Q q
 map <silent> <leader>/ :s/^/\/\//<cr>
