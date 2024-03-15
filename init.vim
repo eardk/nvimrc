@@ -15,18 +15,91 @@ Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/cmp-vsnip'
 Plug 'hrsh7th/vim-vsnip'
 Plug 'simrat39/rust-tools.nvim'
+Plug 'simrat39/symbols-outline.nvim'
+Plug 'ray-x/lsp_signature.nvim'
 Plug 'hashivim/vim-terraform'
-Plug 'ellisonleao/gruvbox.nvim'
 Plug 'OrangeT/vim-csharp'
 Plug 'github/copilot.vim'
+Plug 'MunifTanjim/nui.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 call plug#end()
 
 lua require'lspconfig'.rust_analyzer.setup{}
 lua require'lspconfig'.pyright.setup{}
 lua require'lspconfig'.omnisharp.setup { cmd = { "/usr/local/bin/omnisharp-roslyn/Omnisharp", "--languageserver" , "--hostPID", tostring(pid) }}
 lua require'lspconfig'.terraformls.setup{}
+lua require'lspconfig'.kotlin_language_server.setup{}
 autocmd BufWritePre *.tfvars lua vim.lsp.buf.formatting_sync()
 autocmd BufWritePre *.tf lua vim.lsp.buf.formatting_sync()
+
+lua <<EOF
+local opts = {
+  highlight_hovered_item = true,
+  show_guides = true,
+  auto_preview = false,
+  position = 'right',
+  relative_width = true,
+  width = 30,
+  auto_close = false,
+  show_numbers = false,
+  show_relative_numbers = false,
+  show_symbol_details = true,
+  preview_bg_highlight = 'Pmenu',
+  autofold_depth = nil,
+  auto_unfold_hover = true,
+  fold_markers = { '', '' },
+  wrap = false,
+  keymaps = { -- These keymaps can be a string or a table for multiple keys
+    close = {"<Esc>", "q"},
+    goto_location = "<Cr>",
+    focus_location = "o",
+    hover_symbol = "<C-space>",
+    toggle_preview = "K",
+    rename_symbol = "r",
+    code_actions = "a",
+    fold = "h",
+    unfold = "l",
+    fold_all = "W",
+    unfold_all = "E",
+    fold_reset = "R",
+  },
+  lsp_blacklist = {},
+  symbol_blacklist = {},
+  symbols = {
+    File = { icon = "-", hl = "@text.uri" },
+    Module = { icon = "M", hl = "@namespace" },
+    Namespace = { icon = "N", hl = "@namespace" },
+    Package = { icon = "P", hl = "@namespace" },
+    Class = { icon = "𝓒", hl = "@type" },
+    Method = { icon = "λ", hl = "@method" },
+    Property = { icon = "x", hl = "@method" },
+    Field = { icon = "x", hl = "@field" },
+    Constructor = { icon = "λ", hl = "@constructor" },
+    Enum = { icon = "ℰ", hl = "@type" },
+    Interface = { icon = "I", hl = "@type" },
+    Function = { icon = "λ", hl = "@function" },
+    Variable = { icon = "x", hl = "@constant" },
+    Constant = { icon = "C", hl = "@constant" },
+    String = { icon = "𝓐", hl = "@string" },
+    Number = { icon = "#", hl = "@number" },
+    Boolean = { icon = "⊨", hl = "@boolean" },
+    Array = { icon = "", hl = "@constant" },
+    Object = { icon = "⦿", hl = "@type" },
+    Key = { icon = "🔐", hl = "@type" },
+    Null = { icon = "NULL", hl = "@type" },
+    EnumMember = { icon = "e", hl = "@field" },
+    Struct = { icon = "𝓢", hl = "@type" },
+    Event = { icon = "🗲", hl = "@type" },
+    Operator = { icon = "+", hl = "@operator" },
+    TypeParameter = { icon = "𝙏", hl = "@parameter" },
+    Component = { icon = "", hl = "@function" },
+    Fragment = { icon = "", hl = "@constant" },
+  },
+}
+require'symbols-outline'.setup(opts)
+EOF
 
 filetype plugin indent on
 colorscheme csfade
@@ -46,6 +119,8 @@ nnoremap <silent> <leader>r :Rg<cr>
 nnoremap <silent> <leader>t :Tags<cr>
 let $FZF_DEFAULT_COMMAND='fd --type f'
 "let $FZF_DEFAULT_COMMAND='find . -type f -print -o -type l -print 2> /dev/null | sed s/^..//'
+
+nnoremap <silent> <leader>o :SymbolsOutline<cr>
 
 command W w
 command Q q
@@ -67,7 +142,7 @@ vnoremap <leader>P "+P
 " menuone: popup even when there's only one match
 " noinsert: Do not insert text until a selection is made
 " noselect: Do not select, force user to select one from the menu
-set completeopt=menuone,noinsert,noselect
+set completeopt=noinsert,noselect
 
 " Avoid showing extra messages when using completion
 set shortmess+=c
@@ -179,3 +254,16 @@ set signcolumn=yes
 set expandtab
 set nofixendofline
 set tabstop=8 softtabstop=0 expandtab shiftwidth=4 smarttab
+
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  highlight = {
+    enable = true,
+    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+    -- Using this option may slow down your editor, and you may see some duplicate highlights.
+    -- Instead of true it can also be a list of languages
+    additional_vim_regex_highlighting = false,
+  },
+}
+EOF
